@@ -1,0 +1,199 @@
+/* 🔄 Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Rajdhani', sans-serif;
+  background-color: #0f0f0f;
+  color: #e0e0e0;
+  line-height: 1.6;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* 🔥 Hero Section */
+#hero {
+  background: linear-gradient(to bottom, #1a1a1a, #000);
+  text-align: center;
+  padding: 4rem 2rem 2rem;
+}
+
+.hero-text {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+#hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  color: #ff4c4c;
+  text-shadow: 0 0 10px #ff4c4c88;
+}
+
+#hero p {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-top: 1rem;
+}
+
+.tagline {
+  font-style: italic;
+  color: #00ffff;
+  margin-top: 0.5rem;
+}
+
+/* ⚔️ Game Section */
+#game-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: #0f0f0f;
+}
+
+.canvas-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#gameCanvas {
+  border: 2px solid #ff4c4c;
+  box-shadow: 0 0 30px #ff4c4c88;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 🎮 Controls Box */
+.controls-box {
+  background: #111;
+  border-left: 4px solid #00ffff;
+  padding: 1rem;
+  border-radius: 6px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.controls-box h3 {
+  color: #00ffff;
+  margin-bottom: 0.5rem;
+}
+
+.controls-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.controls-box li {
+  margin-bottom: 0.5rem;
+  color: #00ffcc;
+}
+
+/* 📌 Sticky Navigation */
+#sticky-nav {
+  position: sticky;
+  top: 0;
+  background: #111;
+  padding: 0.75rem 1rem;
+  z-index: 1000;
+  box-shadow: 0 2px 5px #000;
+}
+
+#sticky-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+#sticky-nav a {
+  color: #00ffff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+#sticky-nav a:hover {
+  color: #ff4c4c;
+}
+
+/* 🧱 Content Sections */
+main {
+  padding: 2rem 1rem;
+}
+
+section {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #1a1a1a;
+  border-left: 4px solid #ff4c4c;
+  box-shadow: 0 0 10px #000;
+  border-radius: 6px;
+}
+
+section h2 {
+  font-size: 2rem;
+  color: #ff4c4c;
+  margin-bottom: 1rem;
+}
+
+section p {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+/* 🧠 Code Blocks */
+pre {
+  background: #111;
+  padding: 1rem;
+  overflow-x: auto;
+  border-left: 4px solid #00ffff;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+code {
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+}
+
+/* 🧭 Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #111;
+  color: #666;
+  font-size: 0.9rem;
+  border-top: 1px solid #222;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  #hero h1 {
+    font-size: 2.5rem;
+  }
+
+  #sticky-nav ul {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  section {
+    padding: 1rem;
+  }
+
+  #gameCanvas {
+    width: 100%;
+    max-width: 90vw;
+  }
+}

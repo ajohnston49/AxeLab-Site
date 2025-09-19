@@ -1,0 +1,364 @@
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = 800;
+canvas.height = 600;
+
+const FRAME_WIDTH = 192;
+const FRAME_HEIGHT = 192;
+
+const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+const images = {
+  background: new Image(),
+  idle: new Image(),
+  run: new Image(),
+  attack: new Image(),
+  redRun: new Image(),
+  redAttack: new Image()
+};
+
+images.background.src = "knight-out/assets/background.png";
+images.idle.src = "knight-out/assets/idle.png";
+images.run.src = "knight-out/assets/run.png";
+images.attack.src = "knight-out/assets/attack.png";
+images.redRun.src = "knight-out/assets/red_run.png";
+images.redAttack.src = "knight-out/assets/red_attack.png";
+
+const attackSound = new Audio("knight-out/assets/attack.mp3");
+attackSound.volume = 0.7;
+
+function loadImages(imageMap) {
+  const entries = Object.entries(imageMap);
+  return Promise.all(entries.map(([key, img]) => {
+    return new Promise(resolve => {
+      img.onload = resolve;
+      img.src = img.src;
+    });
+  }));
+}
+
+const animations = {
+  idle: 8,
+  run: 6,
+  attack: 4,
+  redRun: 6,
+  redAttack: 4
+};
+
+let player, enemies, keys, lastTime, gameOver, killCount, waveTimer;
+let lastTapTime = 0;
+
+function resetGame() {
+  player = {
+    x: canvas.width / 2 - FRAME_WIDTH / 2,
+    y: canvas.height / 2 - FRAME_HEIGHT / 2,
+    speed: 4,
+    facing: "right",
+    state: "idle",
+    frame: 0,
+    frameTimer: 0,
+    frameInterval: 100,
+    attacking: false,
+    health: 100,
+    maxHealth: 100
+  };
+  enemies = [];
+  keys = {};
+  lastTime = 0;
+  gameOver = false;
+  killCount = 0;
+  waveTimer = 2000;
+}
+
+function startGame() {
+  resetGame();
+  setInterval(spawnEnemy, 2000);
+  requestAnimationFrame(gameLoop);
+}
+
+document.addEventListener("keydown", e => {
+  keys[e.code] = true;
+  if (gameOver && e.code === "KeyR") {
+    resetGame();
+    requestAnimationFrame(gameLoop);
+  }
+});
+document.addEventListener("keyup", e => keys[e.code] = false);
+
+if (isMobile) {
+  canvas.addEventListener("touchstart", function (e) {
+    const touch = e.touches[0];
+    const x = touch.clientX;
+    const y = touch.clientY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const now = Date.now();
+    const doubleTap = now - lastTapTime < 300;
+    lastTapTime = now;
+
+    if (doubleTap && !player.attacking) {
+      player.state = "attack";
+      player.attacking = true;
+      player.frame = 0;
+      attackSound.currentTime = 0;
+      attackSound.play();
+      return;
+    }
+
+    keys = {}; // Reset keys
+
+    if (x < width / 2) {
+      keys["ArrowLeft"] = true;
+      player.facing = "left";
+    } else {
+      keys["ArrowRight"] = true;
+      player.facing = "right";
+    }
+
+    if (y < height / 2) {
+      keys["ArrowUp"] = true;
+    } else {
+      keys["ArrowDown"] = true;
+    }
+  });
+
+  canvas.addEventListener("touchend", () => {
+    keys = {};
+  });
+}
+
+function spawnEnemy() {
+  if (gameOver) return;
+  const edge = Math.floor(Math.random() * 4);
+  let x, y;
+  switch (edge) {
+    case 0: x = Math.random() * canvas.width; y = -FRAME_HEIGHT; break;
+    case 1: x = Math.random() * canvas.width; y = canvas.height + FRAME_HEIGHT; break;
+    case 2: x = -FRAME_WIDTH; y = Math.random() * canvas.height; break;
+    case 3: x = canvas.width + FRAME_WIDTH; y = Math.random() * canvas.height; break;
+  }
+  enemies.push({
+    x,
+    y,
+    speed: 1.5,
+    facing: "right",
+    state: "run",
+    frame: 0,
+    frameTimer: 0,
+    frameInterval: 100,
+    damageCooldown: 0
+  });
+}
+
+function updatePlayer() {
+  let moving = false;
+  if (keys["Space"] && !player.attacking) {
+    player.state = "attack";
+    player.attacking = true;
+    player.frame = 0;
+    attackSound.currentTime = 0;
+    attackSound.play();
+    return;
+  }
+  if (keys["ArrowLeft"] || keys["KeyA"]) {
+    player.x -= player.speed;
+    player.facing = "left";
+    moving = true;
+  }
+  if (keys["ArrowRight"] || keys["KeyD"]) {
+    player.x += player.speed;
+    player.facing = "right";
+    moving = true;
+  }
+  if (keys["ArrowUp"] || keys["KeyW"]) {
+    player.y -= player.speed;
+    moving = true;
+  }
+  if (keys["ArrowDown"] || keys["KeyS"]) {
+    player.y += player.speed;
+    moving = true;
+  }
+  if (!player.attacking) {
+    player.state = moving ? "run" : "idle";
+  }
+}
+
+function updateEnemies(deltaTime) {
+  enemies.forEach(enemy => {
+    const dx = player.x + FRAME_WIDTH / 2 - (enemy.x + FRAME_WIDTH / 2);
+    const dy = player.y + FRAME_HEIGHT / 2 - (enemy.y + FRAME_HEIGHT / 2);
+    const dist = Math.hypot(dx, dy);
+    if (dist < 80) {
+      enemy.state = "attack";
+    } else {
+      enemy.state = "run";
+      enemy.x += (dx / dist) * enemy.speed;
+      enemy.y += (dy / dist) * enemy.speed;
+      enemy.facing = dx < 0 ? "left" : "right";
+    }
+    if (
+      enemy.state === "attack" &&
+      enemy.damageCooldown <= 0 &&
+      player.x < enemy.x + FRAME_WIDTH &&
+      player.x + FRAME_WIDTH > enemy.x &&
+      player.y < enemy.y + FRAME_HEIGHT &&
+      player.y + FRAME_HEIGHT > enemy.y
+    ) {
+      player.health -= 10;
+      enemy.damageCooldown = 1000;
+      attackSound.currentTime = 0;
+      attackSound.play();
+      if (player.health <= 0) gameOver = true;
+    }
+    enemy.damageCooldown -= deltaTime;
+  });
+}
+
+function checkAttackHit() {
+  if (player.state !== "attack") return;
+  const hitbox = {
+    x: player.facing === "right" ? player.x + FRAME_WIDTH - 30 : player.x - 30,
+    y: player.y + FRAME_HEIGHT / 2 - 25,
+    width: 60,
+    height: 50
+  };
+  enemies.forEach((enemy, index) => {
+    if (
+      hitbox.x < enemy.x + FRAME_WIDTH &&
+      hitbox.x + hitbox.width > enemy.x &&
+      hitbox.y < enemy.y + FRAME_HEIGHT &&
+      hitbox.y + hitbox.height > enemy.y
+    ) {
+      enemies.splice(index, 1);
+      killCount++;
+    }
+  });
+}
+
+function drawBackground() {
+  ctx.drawImage(images.background, 0, 0, canvas.width, canvas.height);
+}
+
+function drawPlayer() {
+  const img = images[player.state];
+  const frameX = player.frame * FRAME_WIDTH;
+  ctx.save();
+  if (player.facing === "left") {
+    ctx.translate(player.x + FRAME_WIDTH, player.y);
+    ctx.scale(-1, 1);
+    ctx.drawImage(img, frameX, 0, FRAME_WIDTH, FRAME_HEIGHT, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+  } else {
+    ctx.drawImage(img, frameX, 0, FRAME_WIDTH, FRAME_HEIGHT, player.x, player.y, FRAME_WIDTH, FRAME_HEIGHT);
+  }
+  ctx.restore();
+}
+
+function drawEnemies() {
+  enemies.forEach(enemy => {
+    const img = enemy.state === "attack" ? images.redAttack : images.redRun;
+    const frameX = enemy.frame * FRAME_WIDTH;
+    ctx.save();
+    if (enemy.facing === "left") {
+      ctx.translate(enemy.x + FRAME_WIDTH, enemy.y);
+      ctx.scale(-1, 1);
+      ctx.drawImage(img, frameX, 0, FRAME_WIDTH, FRAME_HEIGHT, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    } else {
+      ctx.drawImage(img, frameX, 0, FRAME_WIDTH, FRAME_HEIGHT, enemy.x, enemy.y, FRAME_WIDTH, FRAME_HEIGHT);
+    }
+    ctx.restore();
+  });
+}
+
+function drawHUD(deltaTime) {
+  const barWidth = 200;
+  const barHeight = 20;
+  const healthRatio = player.health / player.maxHealth;
+  ctx.fillStyle = "black";
+  ctx.fillRect(20, 20, barWidth, barHeight);
+  const gradient = ctx.createLinearGradient(20, 20, 20 + barWidth, 20);
+  gradient.addColorStop(0, "lime");
+  gradient.addColorStop(0.5, "orange");
+  gradient.addColorStop(1, "red");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(20, 20, barWidth * healthRatio, barHeight);
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(20, 20, barWidth, barHeight);
+  ctx.fillStyle = "white";
+  ctx.font = "18px Arial";
+  ctx.fillText(`Kills: ${killCount}`, 20, 60);
+  waveTimer -= deltaTime;
+  if (waveTimer <= 0) waveTimer = 2000;
+  ctx.fillText(`Next wave: ${Math.ceil(waveTimer / 1000)}s`, 20, 100);
+}
+
+function drawGameOver() {
+  ctx.fillStyle = "rgba(0,0,0,0.7)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "white";
+  ctx.font = "40px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("You Died", canvas.width / 2, canvas.height / 2 - 20);
+  ctx.font = "20px Arial";
+  ctx.fillText("Press 'R' to Restart", canvas.width / 2, canvas.height / 2 + 20);
+}
+
+function updateAnimation(deltaTime) {
+  player.frameTimer += deltaTime;
+  if (player.frameTimer >= player.frameInterval) {
+    player.frame++;
+    player.frameTimer = 0;
+
+    if (player.state === "attack" && player.frame >= animations.attack) {
+      player.attacking = false;
+      player.state = "idle";
+      player.frame = 0;
+    } else if (player.frame >= animations[player.state]) {
+      player.frame = 0;
+    }
+  }
+
+  enemies.forEach(enemy => {
+    enemy.frameTimer += deltaTime;
+    if (enemy.frameTimer >= enemy.frameInterval) {
+      enemy.frame++;
+      enemy.frameTimer = 0;
+
+      const maxFrames = enemy.state === "attack" ? animations.redAttack : animations.redRun;
+      if (enemy.frame >= maxFrames) {
+        enemy.frame = 0;
+      }
+    }
+  });
+}
+
+function gameLoop(timestamp) {
+  const deltaTime = timestamp - lastTime;
+  lastTime = timestamp;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+
+  if (!gameOver) {
+    updatePlayer();
+    updateEnemies(deltaTime);
+    checkAttackHit();
+    updateAnimation(deltaTime);
+    drawPlayer();
+    drawEnemies();
+    drawHUD(deltaTime);
+    requestAnimationFrame(gameLoop);
+  } else {
+    drawPlayer();
+    drawEnemies();
+    drawHUD(0);
+    drawGameOver();
+  }
+}
+
+loadImages(images).then(() => {
+  startGame();
+});

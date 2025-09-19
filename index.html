@@ -2,66 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>AxeLab Studios LLC | Modular Games & Systems</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AxeLab Studios LLC</title>
-  <style>
-    :root {
-      --bg: #0f0f0f;
-      --accent: #00ffe0;
-      --text: #e0e0e0;
-      --font: 'Segoe UI', sans-serif;
-    }
-    body {
-      margin: 0;
-      font-family: var(--font);
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px;
-    }
-    h1 {
-      font-size: 2.5em;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.2em;
-      max-width: 600px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .contact {
-      margin-top: 40px;
-      font-size: 1em;
-    }
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    footer {
-      margin-top: 60px;
-      font-size: 0.9em;
-      color: #888;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>AxeLab Studios LLC</h1>
-  <p>Modular games. Independent systems. Built by Alex Johnston in Liberty, Indiana.</p>
-  <p>Focused on scalable design, layered worlds, and creative control across platforms.</p>
 
-  <div class="contact">
-    <p>📧 <a href="mailto:axelabstudios.llc@outlook.com">axelabstudios.llc@outlook.com</a></p>
-    <p>🎮 Xbox Developer | 🎓 Ivy Tech Graduate (Dec 2025)</p>
-  </div>
+  <!-- 🔥 Hero Section -->
+  <header id="hero">
+    <div class="hero-text">
+      <h1>AxeLab Studios LLC</h1>
+      <p>Modular games. Independent systems. Built with grit.</p>
+      <p class="tagline">I build systems that teach, scale, and protect — for players, platforms, and legacy.</p>
+    </div>
+  </header>
 
+  <!-- ⚔️ Game Canvas Section -->
+  <section id="game-section">
+    <div class="canvas-wrapper">
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </div>
+
+    <div class="controls-box">
+      <h3>🎮 Controls</h3>
+      <ul id="desktop-controls">
+        <li><strong>Arrow Keys</strong> — Move</li>
+        <li><strong>Spacebar</strong> — Attack</li>
+        <li><strong>R</strong> — Restart</li>
+      </ul>
+      <ul id="mobile-controls" style="display: none;">
+        <li><strong>Tap Top-Left</strong> — Move Up + Left</li>
+        <li><strong>Tap Bottom-Left</strong> — Move Down + Left</li>
+        <li><strong>Tap Top-Right</strong> — Move Up + Right</li>
+        <li><strong>Tap Bottom-Right</strong> — Move Down + Right</li>
+        <li><strong>Double Tap Anywhere</strong> — Attack</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 📌 Sticky Navigation -->
+  <nav id="sticky-nav">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#game">Game</a></li>
+      <li><a href="#dev">Dev Status</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- 🧱 Modular Content -->
+  <main>
+    <section id="about">
+      <h2>🧠 About AxeLab</h2>
+      <p>I’m Alex Johnston, founder and sole operator of AxeLab Studios LLC. Based in Liberty, Indiana, I specialize in modular game design, scalable systems, and creative control across platforms.</p>
+      <p>I don’t wait for permission—I build what I believe in. Every system I architect is designed to teach, scale, and protect. AxeLab is my legacy in motion.</p>
+    </section>
+
+    <section id="game">
+      <h2>⚔️ Knight Out: Wave Fighter</h2>
+      <p>This embedded canvas showcases my modular combat prototype. One knight. Endless waves. Built for replayability, challenge, and personality-driven AI.</p>
+      <p>More demos and dev logs coming soon.</p>
+    </section>
+
+    <section id="dev">
+      <h2>🚧 Development Status</h2>
+      <p>I’m actively working toward <strong>ID@Xbox</strong> status and building my first flagship title: <strong>Knight Out: Wave Fighter</strong>.</p>
+      <p>It’s a top-down open world adventure with modular combat and wave-based survival. As development progresses, I’ll unveil more details, dev logs, and playable builds.</p>
+    </section>
+
+    <section id="contact">
+      <h2>📬 Contact</h2>
+      <p>Want to collaborate, license, or challenge me? Reach out. I don’t ghost.</p>
+      <p>Email: <a href="mailto:axelabstudios.llc@outlook.com">axelabstudios.llc@outlook.com</a></p>
+    </section>
+  </main>
+
+  <!-- 🧭 Footer -->
   <footer>
-    &copy; 2025 AxeLab Studios LLC. All rights reserved.
+    <p>&copy; 2025 AxeLab Studios LLC. Built with grit.</p>
   </footer>
+
+  <!-- 🧠 Game Script + Mobile Detection -->
+  <script>
+    window.addEventListener("keydown", function(e) {
+      if (e.code === "Space" && e.target === document.body) {
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const mobileControls = document.getElementById("mobile-controls");
+      const desktopControls = document.getElementById("desktop-controls");
+
+      if (mobileControls && desktopControls) {
+        mobileControls.style.display = isMobile ? "block" : "none";
+        desktopControls.style.display = isMobile ? "none" : "block";
+      }
+    });
+  </script>
+  <script src="knight-out/game.js"></script>
+
 </body>
 </html>
+
+
