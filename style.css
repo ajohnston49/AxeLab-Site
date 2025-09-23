@@ -151,60 +151,70 @@ footer {
 
 /* 📱 Mobile Fixes */
 @media (max-width: 768px) {
+  /* 🔁 Mirror desktop layout */
   .header-container {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    padding: 1rem;
+    justify-content: flex-start;
+    padding: 1rem 1.5rem;
   }
 
   .site-icon {
     width: 150px;
     height: 150px;
-    margin: 0 0 0.75rem 0;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-right: 1rem;
+    flex-shrink: 0;
   }
 
   .header-nav ul {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
     padding: 0;
+    align-items: center;
   }
 
   .header-nav a {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: #00ffcc !important;
     text-shadow: none !important;
   }
 
   main {
-    margin-top: 240px;
+    margin-top: 200px;
+    padding: 1.5rem 1rem;
   }
 
   section {
-    margin: 1.5rem auto !important;
-    padding: 1.25rem !important;
-    border-left: 4px solid #00ff88 !important;
-    box-shadow: 0 0 20px #00ff8844 !important;
-  }
-
-  section + section {
-    margin-top: 1.5rem !important;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+    border-left: 4px solid #00ff88;
+    box-shadow: 0 0 20px #00ff8844;
   }
 
   section h2 {
-    color: #00ff88 !important;
+    font-size: 2.2rem;
+    color: #00ff88;
+  }
+
+  section p {
+    font-size: 1.2rem;
   }
 
   #gameCanvas {
     width: 100%;
     max-width: 90vw;
-    border: 2px solid #00ff88 !important;
-    box-shadow: 0 0 30px #00ff88aa !important;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 30px #00ff88aa;
   }
 
   pre {
-    border-left: 4px solid #00ffcc !important;
-    box-shadow: 0 0 10px #00ffcc44 !important;
+    font-size: 1rem;
+    border-left: 4px solid #00ffcc;
+    box-shadow: 0 0 10px #00ffcc44;
   }
 }
