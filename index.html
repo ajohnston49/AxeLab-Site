@@ -8,6 +8,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/jpeg" href="assets/icon2.jpg" />
+  <style>
+    /* 🎮 Game Buttons */
+    #game-buttons {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    #start-btn, #restart-btn {
+      font-family: 'Bungee', sans-serif;
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      margin: 0.5rem;
+      background: #0a0a0a;
+      color: #00ff88;
+      border: 2px solid #00ff88;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff8844;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: none;
+    }
+
+    #start-btn:hover, #restart-btn:hover {
+      background: #00ff88;
+      color: #0a0a0a;
+    }
+
+    /* 🛑 Pause Button */
+    #pause-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      font-family: 'Bungee', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      background: #0a0a0a;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffcc44;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #pause-btn:hover {
+      background: #00ffcc;
+      color: #0a0a0a;
+    }
+  </style>
 </head>
 <body>
 
@@ -38,6 +88,15 @@
       <h2>Knight Out: Wave Fighter</h2>
       <p>This embedded canvas showcases my modular combat prototype. One knight. Endless waves. Built for replayability, challenge, and personality-driven AI.</p>
       <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+      <!-- 🎮 Game Control Buttons -->
+      <div id="game-buttons">
+        <button id="start-btn">Start Game</button>
+        <button id="restart-btn">Restart</button>
+      </div>
+
+      <!-- 🛑 Pause Button -->
+      <button id="pause-btn">Pause</button>
 
       <!-- 🎮 Platform-Specific Controls -->
       <div id="desktop-controls" class="controls-block">
@@ -86,6 +145,10 @@
         mobileControls.style.display = isMobile ? "block" : "none";
         desktopControls.style.display = isMobile ? "none" : "block";
       }
+
+      // Show start button after assets load
+      const startBtn = document.getElementById("start-btn");
+      if (startBtn) startBtn.style.display = "inline-block";
     });
   </script>
   <script src="knight-out/game.js"></script>
