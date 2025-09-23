@@ -11,11 +11,11 @@ html, body {
   background-size: cover;
   color: #e0e0e0;
   line-height: 1.6;
-  overflow-x: hidden;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-/* 🔝 Fixed Header Layout */
+/* 🔝 Fixed Header */
 #site-header {
   position: fixed;
   top: 0;
@@ -54,7 +54,6 @@ html, body {
 /* 📌 Navigation */
 .header-nav ul {
   display: flex;
-  flex-wrap: wrap;
   gap: 2rem;
   list-style: none;
   margin: 0;
@@ -79,7 +78,7 @@ html, body {
 /* 🧱 Main Content */
 main {
   padding: 2rem 1rem;
-  margin-top: 190px; /* offset for taller header */
+  margin-top: 200px;
 }
 
 /* 🧠 Sections */
@@ -91,11 +90,6 @@ section {
   border-left: 4px solid #00ff88;
   box-shadow: 0 0 20px #00ff8844;
   border-radius: 8px;
-  transition: box-shadow 0.3s ease;
-}
-
-section:hover {
-  box-shadow: 0 0 30px #00ff88aa;
 }
 
 section h2 {
@@ -107,7 +101,6 @@ section h2 {
   letter-spacing: 1px;
 }
 
-/* 🧠 Paragraphs */
 section p {
   font-size: 1.1rem;
   color: #ccc;
@@ -154,19 +147,16 @@ footer {
 
 /* 📱 Mobile Fixes */
 @media (max-width: 768px) {
-  /* 🔧 Icon scales down */
-  .site-icon {
-    width: 72px;
-    height: 72px;
-    margin-right: 0;
-    margin-bottom: 0.5rem;
-  }
-
-  /* 🔧 Header stacks vertically */
   .header-container {
     flex-direction: column;
     align-items: center;
     padding: 1rem;
+  }
+
+  .site-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 0 0.5rem 0;
   }
 
   .header-nav ul {
@@ -179,7 +169,6 @@ footer {
   .header-nav a {
     font-size: 0.95rem;
     color: #00ffcc !important;
-    text-shadow: none !important;
   }
 
   main {
@@ -194,7 +183,6 @@ footer {
 
   section h2 {
     color: #00ff88 !important;
-    text-shadow: none !important;
   }
 
   #gameCanvas {
