@@ -1,4 +1,5 @@
 
+
 /* 🔄 Reset & Base */
 * {
   margin: 0;
@@ -156,26 +157,53 @@ footer {
 
 /* 📱 Responsive */
 @media (max-width: 768px) {
+  /* 🔧 Icon scaled for mobile */
   .site-icon {
-    width: 96px;
-    height: 96px;
-    margin-right: 1rem;
+    width: 72px;
+    height: 72px;
+    margin-right: 0.75rem;
+  }
+
+  /* 🔧 Header layout stacks cleanly */
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
   }
 
   .header-nav ul {
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .header-nav a {
+    font-size: 0.95rem;
+    color: #00ffcc; /* ✅ Ensures green tone */
   }
 
   main {
-    margin-top: 140px;
+    margin-top: 160px; /* ✅ Matches new stacked header height */
   }
 
   section {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   #gameCanvas {
     width: 100%;
     max-width: 90vw;
+    box-shadow: 0 0 30px #00ff88aa; /* ✅ Green glow only */
+    border: 2px solid #00ff88;
+  }
+
+  pre {
+    box-shadow: 0 0 10px #00ffcc44;
+    border-left: 4px solid #00ffcc;
+  }
+
+  section h2 {
+    color: #00ff88; /* ✅ No red */
   }
 }
