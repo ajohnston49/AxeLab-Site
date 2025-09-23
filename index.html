@@ -5,74 +5,48 @@
   <title>AxeLab Studios LLC | Modular Games & Systems</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🔥 Hero Section -->
-  <header id="hero">
-    <div class="hero-text">
-      <h1>AxeLab Studios LLC</h1>
-      <p>Modular games. Independent systems. Built with grit.</p>
-      <p class="tagline">I build systems that teach, scale, and protect — for players, platforms, and legacy.</p>
+  <!-- 🔝 Fixed Header with Icon and Nav -->
+  <header id="site-header">
+    <div class="header-container">
+      <img src="assets/icon2.jpg" alt="AxeLab Icon" class="site-icon" />
+      <nav class="header-nav">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#game">Game</a></li>
+          <li><a href="#dev">Dev Status</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <!-- ⚔️ Game Canvas Section -->
-  <section id="game-section">
-    <div class="canvas-wrapper">
-      <canvas id="gameCanvas" width="800" height="600"></canvas>
-    </div>
-
-    <div class="controls-box">
-      <h3>🎮 Controls</h3>
-      <ul id="desktop-controls">
-        <li><strong>Arrow Keys</strong> — Move</li>
-        <li><strong>Spacebar</strong> — Attack</li>
-        <li><strong>R</strong> — Restart</li>
-      </ul>
-      <ul id="mobile-controls" style="display: none;">
-        <li><strong>Tap Top-Left</strong> — Move Up + Left</li>
-        <li><strong>Tap Bottom-Left</strong> — Move Down + Left</li>
-        <li><strong>Tap Top-Right</strong> — Move Up + Right</li>
-        <li><strong>Tap Bottom-Right</strong> — Move Down + Right</li>
-        <li><strong>Double Tap Anywhere</strong> — Attack</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 📌 Sticky Navigation -->
-  <nav id="sticky-nav">
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#game">Game</a></li>
-      <li><a href="#dev">Dev Status</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- 🧱 Modular Content -->
+  <!-- 🧱 Main Content -->
   <main>
     <section id="about">
-      <h2>🧠 About AxeLab</h2>
+      <h2>About AxeLab</h2>
       <p>I’m Alex Johnston, founder and sole operator of AxeLab Studios LLC. Based in Liberty, Indiana, I specialize in modular game design, scalable systems, and creative control across platforms.</p>
       <p>I don’t wait for permission—I build what I believe in. Every system I architect is designed to teach, scale, and protect. AxeLab is my legacy in motion.</p>
     </section>
 
     <section id="game">
-      <h2>⚔️ Knight Out: Wave Fighter</h2>
+      <h2>Knight Out: Wave Fighter</h2>
       <p>This embedded canvas showcases my modular combat prototype. One knight. Endless waves. Built for replayability, challenge, and personality-driven AI.</p>
-      <p>More demos and dev logs coming soon.</p>
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
     </section>
 
     <section id="dev">
-      <h2>🚧 Development Status</h2>
+      <h2>Development Status</h2>
       <p>I’m actively working toward <strong>ID@Xbox</strong> status and building my first flagship title: <strong>Knight Out: Wave Fighter</strong>.</p>
       <p>It’s a top-down open world adventure with modular combat and wave-based survival. As development progresses, I’ll unveil more details, dev logs, and playable builds.</p>
     </section>
 
     <section id="contact">
-      <h2>📬 Contact</h2>
+      <h2>Contact</h2>
       <p>Want to collaborate, license, or challenge me? Reach out. I don’t ghost.</p>
       <p>Email: <a href="mailto:axelabstudios.llc@outlook.com">axelabstudios.llc@outlook.com</a></p>
     </section>
@@ -106,5 +80,4 @@
 
 </body>
 </html>
-
 

@@ -1,3 +1,4 @@
+
 /* 🔄 Reset & Base */
 * {
   margin: 0;
@@ -7,149 +8,123 @@
 
 html, body {
   font-family: 'Rajdhani', sans-serif;
-  background-color: #0f0f0f;
+  background: url('assets/background.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: #e0e0e0;
   line-height: 1.6;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
-/* 🔥 Hero Section */
-#hero {
-  background: linear-gradient(to bottom, #1a1a1a, #000);
-  text-align: center;
-  padding: 4rem 2rem 2rem;
-}
-
-.hero-text {
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 1.5rem;
-  border-radius: 8px;
-}
-
-#hero h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3.5rem;
-  color: #ff4c4c;
-  text-shadow: 0 0 10px #ff4c4c88;
-}
-
-#hero p {
-  font-size: 1.2rem;
-  color: #ccc;
-  margin-top: 1rem;
-}
-
-.tagline {
-  font-style: italic;
-  color: #00ffff;
-  margin-top: 0.5rem;
-}
-
-/* ⚔️ Game Section */
-#game-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 1rem;
-  background: #0f0f0f;
-}
-
-.canvas-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-#gameCanvas {
-  border: 2px solid #ff4c4c;
-  box-shadow: 0 0 30px #ff4c4c88;
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* 🎮 Controls Box */
-.controls-box {
-  background: #111;
-  border-left: 4px solid #00ffff;
-  padding: 1rem;
-  border-radius: 6px;
-  max-width: 800px;
-  width: 100%;
-}
-
-.controls-box h3 {
-  color: #00ffff;
-  margin-bottom: 0.5rem;
-}
-
-.controls-box ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.controls-box li {
-  margin-bottom: 0.5rem;
-  color: #00ffcc;
-}
-
-/* 📌 Sticky Navigation */
-#sticky-nav {
-  position: sticky;
+/* 🔝 Fixed Header Layout */
+#site-header {
+  position: fixed;
   top: 0;
-  background: #111;
-  padding: 0.75rem 1rem;
+  left: 0;
+  width: 100%;
+  background: #0a0a0a;
   z-index: 1000;
-  box-shadow: 0 2px 5px #000;
+  box-shadow: 0 2px 10px #00ff8844;
+  border-bottom: 2px solid #00ff88;
 }
 
-#sticky-nav ul {
+.header-container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 🖼️ Icon */
+.site-icon {
+  width: 175px;
+  height: 175px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.site-icon:hover {
+  transform: scale(1.05);
+}
+
+/* 📌 Navigation */
+.header-nav ul {
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
 }
 
-#sticky-nav a {
-  color: #00ffff;
-  font-weight: bold;
+.header-nav a {
+  font-family: 'Bungee', sans-serif;
+  color: #00ffcc;
+  font-size: 1rem;
   text-decoration: none;
-  transition: color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-#sticky-nav a:hover {
-  color: #ff4c4c;
+.header-nav a:hover {
+  color: #00ff88;
+  text-shadow: 0 0 8px #00ff88;
 }
 
-/* 🧱 Content Sections */
+/* 🧱 Main Content */
 main {
   padding: 2rem 1rem;
+  margin-top: 160px; /* offset for taller header */
 }
 
+/* 🧠 Sections */
 section {
   max-width: 900px;
   margin: 2rem auto;
-  padding: 1.5rem;
-  background: #1a1a1a;
-  border-left: 4px solid #ff4c4c;
-  box-shadow: 0 0 10px #000;
-  border-radius: 6px;
+  padding: 2rem;
+  background: rgba(20, 20, 20, 0.95);
+  border-left: 4px solid #00ff88;
+  box-shadow: 0 0 20px #00ff8844;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+section:hover {
+  box-shadow: 0 0 30px #00ff88aa;
 }
 
 section h2 {
+  font-family: 'Bungee', sans-serif;
   font-size: 2rem;
-  color: #ff4c4c;
+  color: #00ff88;
   margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: normal;
 }
 
 section p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #ccc;
   margin-bottom: 1rem;
+}
+
+/* ⚔️ Game Canvas */
+#gameCanvas {
+  border: 2px solid #00ff88;
+  box-shadow: 0 0 40px #00ff88aa;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 1rem;
+  border-radius: 6px;
 }
 
 /* 🧠 Code Blocks */
@@ -157,9 +132,10 @@ pre {
   background: #111;
   padding: 1rem;
   overflow-x: auto;
-  border-left: 4px solid #00ffff;
+  border-left: 4px solid #00ffcc;
   margin-bottom: 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px #00ffcc44;
 }
 
 code {
@@ -175,21 +151,27 @@ footer {
   color: #666;
   font-size: 0.9rem;
   border-top: 1px solid #222;
+  box-shadow: 0 -2px 5px #000;
 }
 
 /* 📱 Responsive */
 @media (max-width: 768px) {
-  #hero h1 {
-    font-size: 2.5rem;
+  .site-icon {
+    width: 96px;
+    height: 96px;
+    margin-right: 1rem;
   }
 
-  #sticky-nav ul {
-    flex-wrap: wrap;
+  .header-nav ul {
     gap: 1rem;
   }
 
+  main {
+    margin-top: 140px;
+  }
+
   section {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   #gameCanvas {
