@@ -147,34 +147,43 @@ footer {
 
 /* 📱 Mobile Fixes */
 @media (max-width: 768px) {
+  /* 🔧 Header stacks vertically */
   .header-container {
     flex-direction: column;
     align-items: center;
     padding: 1rem;
   }
 
+  /* 🔧 Icon scaled and centered */
   .site-icon {
     width: 150px;
     height: 150px;
-    margin: 0 0 0.5rem 0;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 0 0.75rem 0;
   }
 
+  /* 🔧 Nav stacks cleanly below icon */
   .header-nav ul {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     margin-top: 0.5rem;
+    padding: 0;
   }
 
   .header-nav a {
     font-size: 0.95rem;
     color: #00ffcc !important;
+    text-shadow: none !important;
   }
 
+  /* 🔧 Content offset for taller header */
   main {
-    margin-top: 160px;
+    margin-top: 220px;
   }
 
+  /* 🔧 Section and canvas cleanup */
   section {
     padding: 1.25rem;
     border-left: 4px solid #00ff88 !important;
