@@ -48,6 +48,8 @@ const animations = {
 
 let player, enemies, keys, lastTime, gameOver, killCount, waveTimer;
 let lastTapTime = 0;
+let paused = false;
+let gameStarted = false;
 
 function resetGame() {
   player = {
@@ -73,16 +75,32 @@ function resetGame() {
 
 function startGame() {
   resetGame();
+  document.getElementById("start-btn").style.display = "none";
+  document.getElementById("restart-btn").style.display = "none";
+  gameStarted = true;
   setInterval(spawnEnemy, 2000);
   requestAnimationFrame(gameLoop);
 }
 
-document.addEventListener("keydown", e => {
-  keys[e.code] = true;
-  if (gameOver && e.code === "KeyR") {
-    resetGame();
+function restartGame() {
+  resetGame();
+  document.getElementById("restart-btn").style.display = "none";
+  requestAnimationFrame(gameLoop);
+}
+
+function togglePause() {
+  paused = !paused;
+  if (!paused && gameStarted) {
     requestAnimationFrame(gameLoop);
   }
+}
+
+document.getElementById("start-btn").addEventListener("click", startGame);
+document.getElementById("restart-btn").addEventListener("click", restartGame);
+document.getElementById("pause-btn").addEventListener("click", togglePause);
+
+document.addEventListener("keydown", e => {
+  keys[e.code] = true;
 });
 document.addEventListener("keyup", e => keys[e.code] = false);
 
@@ -107,7 +125,7 @@ if (isMobile) {
       return;
     }
 
-    keys = {}; // Reset keys
+    keys = {};
 
     if (x < width / 2) {
       keys["ArrowLeft"] = true;
@@ -130,7 +148,7 @@ if (isMobile) {
 }
 
 function spawnEnemy() {
-  if (gameOver) return;
+  if (gameOver || paused || !gameStarted) return;
   const edge = Math.floor(Math.random() * 4);
   let x, y;
   switch (edge) {
@@ -180,6 +198,11 @@ function updatePlayer() {
     player.y += player.speed;
     moving = true;
   }
+
+  // 🧱 Border collision
+  player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
+  player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
+
   if (!player.attacking) {
     player.state = moving ? "run" : "idle";
   }
@@ -210,7 +233,10 @@ function updateEnemies(deltaTime) {
       enemy.damageCooldown = 1000;
       attackSound.currentTime = 0;
       attackSound.play();
-      if (player.health <= 0) gameOver = true;
+      if (player.health <= 0) {
+        gameOver = true;
+        document.getElementById("restart-btn").style.display = "block";
+      }
     }
     enemy.damageCooldown -= deltaTime;
   });
@@ -303,7 +329,7 @@ function drawGameOver() {
   ctx.textAlign = "center";
   ctx.fillText("You Died", canvas.width / 2, canvas.height / 2 - 20);
   ctx.font = "20px Arial";
-  ctx.fillText("Press 'R' to Restart", canvas.width / 2, canvas.height / 2 + 20);
+  ctx.fillText("Tap or Click to Restart", canvas.width / 2, canvas.height / 2 + 20);
 }
 
 function updateAnimation(deltaTime) {
@@ -336,6 +362,8 @@ function updateAnimation(deltaTime) {
 }
 
 function gameLoop(timestamp) {
+  if (paused || !gameStarted) return;
+
   const deltaTime = timestamp - lastTime;
   lastTime = timestamp;
 
@@ -360,5 +388,6 @@ function gameLoop(timestamp) {
 }
 
 loadImages(images).then(() => {
-  startGame();
+  document.getElementById("start-btn").style.display = "block";
 });
+

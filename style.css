@@ -122,6 +122,32 @@ section p {
   border-radius: 6px;
 }
 
+/* 🎮 Controls Section */
+.controls-block {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: rgba(20, 20, 20, 0.95);
+  border-left: 4px solid #00ff88;
+  box-shadow: 0 0 20px #00ff8844;
+  border-radius: 8px;
+  display: none;
+}
+
+.controls-block h2 {
+  font-family: 'Bungee', sans-serif;
+  font-size: 2rem;
+  color: #00ff88;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.controls-block p {
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
 /* 🧠 Code Blocks */
 pre {
   background: #111;
@@ -151,7 +177,6 @@ footer {
 
 /* 📱 Mobile Fixes */
 @media (max-width: 768px) {
-  /* 🔁 Mirror desktop layout */
   .header-container {
     flex-direction: row;
     align-items: center;
@@ -219,6 +244,12 @@ footer {
     max-width: 90vw;
     border: 2px solid #00ff88;
     box-shadow: 0 0 30px #00ff88aa;
+  }
+
+  .controls-block {
+    display: none;
+    padding: 1.5rem;
+    font-size: 1.2rem;
   }
 
   pre {
