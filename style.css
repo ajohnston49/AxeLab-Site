@@ -122,6 +122,42 @@ section p {
   border-radius: 6px;
 }
 
+/* 🎮 Game Buttons */
+#game-buttons {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+#start-btn, #restart-btn, #pause-btn {
+  font-family: 'Bungee', sans-serif;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  margin: 0.5rem;
+  background: #0a0a0a;
+  color: #00ff88;
+  border: 2px solid #00ff88;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ff8844;
+  transition: background 0.3s ease, color 0.3s ease;
+  display: none;
+}
+
+#pause-btn {
+  color: #00ffcc;
+  border-color: #00ffcc;
+  box-shadow: 0 0 10px #00ffcc44;
+}
+
+#start-btn:hover, #restart-btn:hover, #pause-btn:hover {
+  background: #00ff88;
+  color: #0a0a0a;
+}
+
+#pause-btn:hover {
+  background: #00ffcc;
+}
+
 /* 🎮 Controls Section */
 .controls-block {
   max-width: 900px;
@@ -250,6 +286,11 @@ footer {
     display: none;
     padding: 1.5rem;
     font-size: 1.2rem;
+  }
+
+  #start-btn, #restart-btn, #pause-btn {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.4rem;
   }
 
   pre {
