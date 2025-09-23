@@ -171,7 +171,7 @@ footer {
   .header-nav ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1.25rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -179,13 +179,22 @@ footer {
   }
 
   .header-nav a {
-    font-size: 1.1rem;
-    color: #00ffcc !important;
-    text-shadow: none !important;
+    font-size: 1.2rem;
+    color: #00ffcc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .header-nav a:hover {
+    background: #00ff88;
+    color: #0a0a0a;
   }
 
   main {
-    margin-top: 200px;
+    margin-top: 220px;
     padding: 1.5rem 1rem;
   }
 
