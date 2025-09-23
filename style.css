@@ -92,6 +92,10 @@ section {
   border-radius: 8px;
 }
 
+section + section {
+  margin-top: 2rem;
+}
+
 section h2 {
   font-family: 'Bungee', sans-serif;
   font-size: 2rem;
@@ -147,23 +151,18 @@ footer {
 
 /* 📱 Mobile Fixes */
 @media (max-width: 768px) {
-  /* 🔧 Header stacks vertically */
   .header-container {
     flex-direction: column;
     align-items: center;
     padding: 1rem;
   }
 
-  /* 🔧 Icon scaled and centered */
   .site-icon {
     width: 150px;
     height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
     margin: 0 0 0.75rem 0;
   }
 
-  /* 🔧 Nav stacks cleanly below icon */
   .header-nav ul {
     flex-direction: column;
     align-items: center;
@@ -178,16 +177,19 @@ footer {
     text-shadow: none !important;
   }
 
-  /* 🔧 Content offset for taller header */
   main {
-    margin-top: 220px;
+    margin-top: 240px;
   }
 
-  /* 🔧 Section and canvas cleanup */
   section {
-    padding: 1.25rem;
+    margin: 1.5rem auto !important;
+    padding: 1.25rem !important;
     border-left: 4px solid #00ff88 !important;
     box-shadow: 0 0 20px #00ff8844 !important;
+  }
+
+  section + section {
+    margin-top: 1.5rem !important;
   }
 
   section h2 {
