@@ -108,6 +108,9 @@ document.addEventListener("keydown", e => {
 });
 document.addEventListener("keyup", e => keys[e.code] = false);
 
+let mobileDirX = 0;
+let mobileDirY = 0;
+
 if (isMobile) {
   canvas.addEventListener("touchstart", function (e) {
     const touch = e.touches[0];
@@ -129,27 +132,18 @@ if (isMobile) {
       return;
     }
 
-    keys = {};
+    mobileDirX = x < width / 2 ? -1 : 1;
+    mobileDirY = y < height / 2 ? -1 : 1;
 
-    if (x < width / 2) {
-      keys["ArrowLeft"] = true;
-      player.facing = "left";
-    } else {
-      keys["ArrowRight"] = true;
-      player.facing = "right";
-    }
-
-    if (y < height / 2) {
-      keys["ArrowUp"] = true;
-    } else {
-      keys["ArrowDown"] = true;
-    }
+    player.facing = mobileDirX === -1 ? "left" : "right";
   });
 
   canvas.addEventListener("touchend", () => {
-    keys = {};
+    mobileDirX = 0;
+    mobileDirY = 0;
   });
 }
+
 
 function spawnEnemy() {
   if (gameOver || paused || !gameStarted) return;
@@ -202,6 +196,28 @@ function updatePlayer() {
     player.y += player.speed;
     moving = true;
   }
+  
+  if (isMobile) {
+  if (mobileDirX === -1) {
+    player.x -= player.speed;
+    player.facing = "left";
+    moving = true;
+  }
+  if (mobileDirX === 1) {
+    player.x += player.speed;
+    player.facing = "right";
+    moving = true;
+  }
+  if (mobileDirY === -1) {
+    player.y -= player.speed;
+    moving = true;
+  }
+  if (mobileDirY === 1) {
+    player.y += player.speed;
+    moving = true;
+  }
+}
+
 
   player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
   player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
