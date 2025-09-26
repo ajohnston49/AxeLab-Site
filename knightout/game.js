@@ -8,7 +8,6 @@ const FRAME_WIDTH = 192;
 const FRAME_HEIGHT = 192;
 
 const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
 const images = {
   background: new Image(),
   idle: new Image(),
@@ -47,9 +46,13 @@ const animations = {
 };
 
 let player, enemies, keys, lastTime, gameOver, killCount, waveTimer;
-let lastTapTime = 0;
 let paused = false;
 let gameStarted = false;
+
+let touchX = null;
+let touchY = null;
+let isDragging = false;
+let lastTapTime = 0;
 
 function resetGame() {
   player = {
@@ -108,42 +111,36 @@ document.addEventListener("keydown", e => {
 });
 document.addEventListener("keyup", e => keys[e.code] = false);
 
-let mobileDirX = 0;
-let mobileDirY = 0;
-
 if (isMobile) {
-  canvas.addEventListener("touchstart", function (e) {
+  canvas.addEventListener("touchstart", e => {
     const touch = e.touches[0];
-    const x = touch.clientX;
-    const y = touch.clientY;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    touchX = touch.clientX;
+    touchY = touch.clientY;
+    isDragging = false;
+    lastTapTime = Date.now();
+  });
 
+  canvas.addEventListener("touchmove", e => {
+    const touch = e.touches[0];
+    touchX = touch.clientX;
+    touchY = touch.clientY;
+    isDragging = true;
+  });
+
+  canvas.addEventListener("touchend", () => {
     const now = Date.now();
-    const doubleTap = now - lastTapTime < 300;
-    lastTapTime = now;
-
-    if (doubleTap && !player.attacking) {
+    if (!isDragging && now - lastTapTime < 300 && !player.attacking) {
       player.state = "attack";
       player.attacking = true;
       player.frame = 0;
       attackSound.currentTime = 0;
       attackSound.play();
-      return;
     }
-
-    mobileDirX = x < width / 2 ? -1 : 1;
-    mobileDirY = y < height / 2 ? -1 : 1;
-
-    player.facing = mobileDirX === -1 ? "left" : "right";
-  });
-
-  canvas.addEventListener("touchend", () => {
-    mobileDirX = 0;
-    mobileDirY = 0;
+    touchX = null;
+    touchY = null;
+    isDragging = false;
   });
 }
-
 
 function spawnEnemy() {
   if (gameOver || paused || !gameStarted) return;
@@ -170,6 +167,7 @@ function spawnEnemy() {
 
 function updatePlayer() {
   let moving = false;
+
   if (keys["Space"] && !player.attacking) {
     player.state = "attack";
     player.attacking = true;
@@ -178,6 +176,7 @@ function updatePlayer() {
     attackSound.play();
     return;
   }
+
   if (keys["ArrowLeft"] || keys["KeyA"]) {
     player.x -= player.speed;
     player.facing = "left";
@@ -196,28 +195,23 @@ function updatePlayer() {
     player.y += player.speed;
     moving = true;
   }
-  
-  if (isMobile) {
-  if (mobileDirX === -1) {
-    player.x -= player.speed;
-    player.facing = "left";
-    moving = true;
-  }
-  if (mobileDirX === 1) {
-    player.x += player.speed;
-    player.facing = "right";
-    moving = true;
-  }
-  if (mobileDirY === -1) {
-    player.y -= player.speed;
-    moving = true;
-  }
-  if (mobileDirY === 1) {
-    player.y += player.speed;
-    moving = true;
-  }
-}
 
+  if (isMobile && touchX !== null && touchY !== null) {
+    const rect = canvas.getBoundingClientRect();
+    const targetX = touchX - rect.left - FRAME_WIDTH / 2;
+    const targetY = touchY - rect.top - FRAME_HEIGHT / 2;
+
+    const dx = targetX - player.x;
+    const dy = targetY - player.y;
+    const dist = Math.hypot(dx, dy);
+
+    if (dist > 5) {
+      player.x += (dx / dist) * player.speed;
+      player.y += (dy / dist) * player.speed;
+      player.facing = dx < 0 ? "left" : "right";
+      moving = true;
+    }
+  }
 
   player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
   player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
@@ -344,6 +338,7 @@ function drawHUD(deltaTime) {
   if (waveTimer <= 0) waveTimer = 2000;
   ctx.fillText(`Next wave: ${Math.ceil(waveTimer / 1000)}s`, 20, 100);
 }
+
 function updateAnimation(deltaTime) {
   player.frameTimer += deltaTime;
   if (player.frameTimer >= player.frameInterval) {
@@ -373,6 +368,19 @@ function updateAnimation(deltaTime) {
   });
 }
 
+function drawGameOver() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#ff4444";
+  ctx.font = "48px Bungee, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 40);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "24px Orbitron, sans-serif";
+  ctx.fillText(`Kills: ${killCount}`, canvas.width / 2, canvas.height / 2 + 10);
+  ctx.fillText("Tap Restart to try again", canvas.width / 2, canvas.height / 2 + 50);
+}
+
 function gameLoop(timestamp) {
   if (!lastTime) lastTime = timestamp;
   const deltaTime = timestamp - lastTime;
@@ -400,7 +408,8 @@ function gameLoop(timestamp) {
   }
 }
 
-
 loadImages(images).then(() => {
   document.getElementById("start-btn").style.display = "inline-block";
 });
+
+
