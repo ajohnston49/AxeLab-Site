@@ -18,14 +18,14 @@ const images = {
   redAttack: new Image()
 };
 
-images.background.src = "knight-out/assets/background.png";
-images.idle.src = "knight-out/assets/idle.png";
-images.run.src = "knight-out/assets/run.png";
-images.attack.src = "knight-out/assets/attack.png";
-images.redRun.src = "knight-out/assets/red_run.png";
-images.redAttack.src = "knight-out/assets/red_attack.png";
+images.background.src = "knightout/assets/background.png";
+images.idle.src = "knightout/assets/idle.png";
+images.run.src = "knightout/assets/run.png";
+images.attack.src = "knightout/assets/attack.png";
+images.redRun.src = "knightout/assets/red_run.png";
+images.redAttack.src = "knightout/assets/red_attack.png";
 
-const attackSound = new Audio("knight-out/assets/attack.mp3");
+const attackSound = new Audio("knightout/assets/attack.mp3");
 attackSound.volume = 0.7;
 
 function loadImages(imageMap) {
@@ -77,7 +77,9 @@ function startGame() {
   resetGame();
   document.getElementById("start-btn").style.display = "none";
   document.getElementById("restart-btn").style.display = "none";
+  document.getElementById("pause-btn").style.display = "inline-block";
   gameStarted = true;
+  paused = false;
   setInterval(spawnEnemy, 2000);
   requestAnimationFrame(gameLoop);
 }
@@ -95,9 +97,11 @@ function togglePause() {
   }
 }
 
-document.getElementById("start-btn").addEventListener("click", startGame);
-document.getElementById("restart-btn").addEventListener("click", restartGame);
-document.getElementById("pause-btn").addEventListener("click", togglePause);
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("start-btn").addEventListener("click", startGame);
+  document.getElementById("restart-btn").addEventListener("click", restartGame);
+  document.getElementById("pause-btn").addEventListener("click", togglePause);
+});
 
 document.addEventListener("keydown", e => {
   keys[e.code] = true;
@@ -199,7 +203,6 @@ function updatePlayer() {
     moving = true;
   }
 
-  // 🧱 Border collision
   player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
   player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
 
@@ -235,7 +238,7 @@ function updateEnemies(deltaTime) {
       attackSound.play();
       if (player.health <= 0) {
         gameOver = true;
-        document.getElementById("restart-btn").style.display = "block";
+        document.getElementById("restart-btn").style.display = "inline-block";
       }
     }
     enemy.damageCooldown -= deltaTime;
@@ -301,37 +304,30 @@ function drawHUD(deltaTime) {
   const barWidth = 200;
   const barHeight = 20;
   const healthRatio = player.health / player.maxHealth;
+
   ctx.fillStyle = "black";
   ctx.fillRect(20, 20, barWidth, barHeight);
+
   const gradient = ctx.createLinearGradient(20, 20, 20 + barWidth, 20);
   gradient.addColorStop(0, "lime");
   gradient.addColorStop(0.5, "orange");
   gradient.addColorStop(1, "red");
+
   ctx.fillStyle = gradient;
   ctx.fillRect(20, 20, barWidth * healthRatio, barHeight);
+
   ctx.strokeStyle = "white";
   ctx.lineWidth = 2;
   ctx.strokeRect(20, 20, barWidth, barHeight);
+
   ctx.fillStyle = "white";
   ctx.font = "18px Arial";
   ctx.fillText(`Kills: ${killCount}`, 20, 60);
+
   waveTimer -= deltaTime;
   if (waveTimer <= 0) waveTimer = 2000;
   ctx.fillText(`Next wave: ${Math.ceil(waveTimer / 1000)}s`, 20, 100);
 }
-
-function drawGameOver() {
-  ctx.fillStyle = "rgba(0,0,0,0.7)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "white";
-  ctx.font = "40px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText("You Died", canvas.width / 2, canvas.height / 2 - 20);
-  ctx.font = "20px Arial";
-  ctx.fillText("Tap or Click to Restart", canvas.width / 2, canvas.height / 2 + 20);
-}
-
 function updateAnimation(deltaTime) {
   player.frameTimer += deltaTime;
   if (player.frameTimer >= player.frameInterval) {
@@ -362,10 +358,11 @@ function updateAnimation(deltaTime) {
 }
 
 function gameLoop(timestamp) {
-  if (paused || !gameStarted) return;
-
+  if (!lastTime) lastTime = timestamp;
   const deltaTime = timestamp - lastTime;
   lastTime = timestamp;
+
+  if (paused || !gameStarted) return;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
@@ -387,7 +384,7 @@ function gameLoop(timestamp) {
   }
 }
 
-loadImages(images).then(() => {
-  document.getElementById("start-btn").style.display = "block";
-});
 
+loadImages(images).then(() => {
+  document.getElementById("start-btn").style.display = "inline-block";
+});
