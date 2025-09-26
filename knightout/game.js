@@ -104,15 +104,30 @@ function togglePause() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Button event listeners
   document.getElementById("start-btn").addEventListener("click", startGame);
   document.getElementById("restart-btn").addEventListener("click", restartGame);
   document.getElementById("pause-btn").addEventListener("click", togglePause);
+
+  // Mobile joystick visibility
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const mobileControls = document.getElementById("mobile-controls");
+  if (mobileControls) {
+    mobileControls.style.display = isMobile ? "flex" : "none";
+  }
 });
 
+// Keyboard input
 document.addEventListener("keydown", e => {
+  if (!keys) return;
   keys[e.code] = true;
 });
-document.addEventListener("keyup", e => keys[e.code] = false);
+
+document.addEventListener("keyup", e => {
+  if (!keys) return;
+  keys[e.code] = false;
+});
+
 
 if (isMobile) {
   canvas.addEventListener("touchstart", e => {

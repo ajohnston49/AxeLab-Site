@@ -190,6 +190,98 @@ section p {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+/* 🎮 Game Buttons */
+#game-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#game-buttons button {
+  font-family: 'Bungee', sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  background: #0a0a0a;
+  color: #00ff88;
+  border: 2px solid #00ff88;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 6px #00ff8844;
+  transition: background 0.3s ease, color 0.3s ease;
+  min-width: 60px;
+}
+
+#pause-btn {
+  color: #00ffcc;
+  border-color: #00ffcc;
+  box-shadow: 0 0 6px #00ffcc44;
+}
+
+#game-buttons button:hover {
+  background: #00ff88;
+  color: #0a0a0a;
+}
+
+#pause-btn:hover {
+  background: #00ffcc;
+}
+
+/* 🎮 Mobile Controls */
+#mobile-controls {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+#joystick-base {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+  touch-action: none;
+  box-shadow: 0 0 10px #00ff8844;
+}
+
+#joystick-thumb {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #00ff88;
+  border-radius: 50%;
+  left: 30px;
+  top: 30px;
+  transform: translate(0, 0);
+  box-shadow: 0 0 10px #00ff8844;
+}
+
+/* 📱 Mobile Visibility */
+@media (max-width: 768px) {
+  #mobile-controls {
+    display: flex;
+  }
+
+  #game-buttons button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+  }
+
+  #joystick-base {
+    width: 100px;
+    height: 100px;
+  }
+
+  #joystick-thumb {
+    width: 50px;
+    height: 50px;
+    left: 25px;
+    top: 25px;
+  }
+}
 
 .controls-block p {
   font-size: 1.1rem;
