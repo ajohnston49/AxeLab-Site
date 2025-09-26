@@ -85,6 +85,8 @@ function startGame() {
   paused = false;
   setInterval(spawnEnemy, 2000);
   requestAnimationFrame(gameLoop);
+  canvas.addEventListener("touchmove", preventScroll, { passive: false });
+
 }
 
 function restartGame() {
@@ -98,6 +100,7 @@ function togglePause() {
   if (!paused && gameStarted) {
     requestAnimationFrame(gameLoop);
   }
+  canvas.removeEventListener("touchmove", preventScroll);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -141,6 +144,11 @@ if (isMobile) {
     isDragging = false;
   });
 }
+
+function preventScroll(e) {
+  e.preventDefault();
+}
+
 
 function spawnEnemy() {
   if (gameOver || paused || !gameStarted) return;
@@ -379,6 +387,7 @@ function drawGameOver() {
   ctx.font = "24px Orbitron, sans-serif";
   ctx.fillText(`Kills: ${killCount}`, canvas.width / 2, canvas.height / 2 + 10);
   ctx.fillText("Tap Restart to try again", canvas.width / 2, canvas.height / 2 + 50);
+  canvas.removeEventListener("touchmove", preventScroll);
 }
 
 function gameLoop(timestamp) {
