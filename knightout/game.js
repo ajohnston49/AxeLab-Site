@@ -205,28 +205,30 @@ function updatePlayer() {
   }
 
   if (isMobile && touchX !== null && touchY !== null) {
-    const rect = canvas.getBoundingClientRect();
-    const targetX = touchX - rect.left - FRAME_WIDTH / 2;
-    const targetY = touchY - rect.top - FRAME_HEIGHT / 2;
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
 
-    const dx = targetX - player.x;
-    const dy = targetY - player.y;
-    const dist = Math.hypot(dx, dy);
+  const targetX = (touchX - rect.left) * scaleX - FRAME_WIDTH / 2;
+  const targetY = (touchY - rect.top) * scaleY - FRAME_HEIGHT / 2;
 
-    if (dist > 5) {
-      player.x += (dx / dist) * player.speed;
-      player.y += (dy / dist) * player.speed;
-      player.facing = dx < 0 ? "left" : "right";
-      moving = true;
-    }
+  const dx = targetX - player.x;
+  const dy = targetY - player.y;
+  const dist = Math.hypot(dx, dy);
+
+  if (dist > 5) {
+    player.x += (dx / dist) * player.speed;
+    player.y += (dy / dist) * player.speed;
+    player.facing = dx < 0 ? "left" : "right";
+    moving = true;
   }
+}
 
-  player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
-  player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
+player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
+player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
 
-  if (!player.attacking) {
-    player.state = moving ? "run" : "idle";
-  }
+if (!player.attacking) {
+  player.state = moving ? "run" : "idle";
 }
 
 function updateEnemies(deltaTime) {
