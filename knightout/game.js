@@ -176,6 +176,7 @@ function spawnEnemy() {
 function updatePlayer() {
   let moving = false;
 
+  // PC attack
   if (keys["Space"] && !player.attacking) {
     player.state = "attack";
     player.attacking = true;
@@ -185,6 +186,7 @@ function updatePlayer() {
     return;
   }
 
+  // PC movement
   if (keys["ArrowLeft"] || keys["KeyA"]) {
     player.x -= player.speed;
     player.facing = "left";
@@ -203,25 +205,34 @@ function updatePlayer() {
     player.y += player.speed;
     moving = true;
   }
+
+  // Mobile drag-to-move
   if (isMobile && touchX !== null && touchY !== null) {
-  const rect = canvas.getBoundingClientRect();
-  const targetX = touchX - rect.left - FRAME_WIDTH / 2;
-  const targetY = touchY - rect.top - FRAME_HEIGHT / 2;
+    const rect = canvas.getBoundingClientRect();
+    const targetX = touchX - rect.left - FRAME_WIDTH / 2;
+    const targetY = touchY - rect.top - FRAME_HEIGHT / 2;
 
-  const dx = targetX - player.x;
-  const dy = targetY - player.y;
-  const dist = Math.hypot(dx, dy);
+    const dx = targetX - player.x;
+    const dy = targetY - player.y;
+    const dist = Math.hypot(dx, dy);
 
-  if (dist > 5) {
-    player.x += (dx / dist) * player.speed;
-    player.y += (dy / dist) * player.speed;
-    player.facing = dx < 0 ? "left" : "right";
-    moving = true;
+    if (dist > 5) {
+      player.x += (dx / dist) * player.speed;
+      player.y += (dy / dist) * player.speed;
+      player.facing = dx < 0 ? "left" : "right";
+      moving = true;
+    }
+  }
+
+  // Clamp to canvas bounds
+  player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
+  player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
+
+  // Set animation state
+  if (!player.attacking) {
+    player.state = moving ? "run" : "idle";
   }
 }
-
-player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
-player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
 
 if (!player.attacking) {
   player.state = moving ? "run" : "idle";
