@@ -203,14 +203,10 @@ function updatePlayer() {
     player.y += player.speed;
     moving = true;
   }
-
   if (isMobile && touchX !== null && touchY !== null) {
   const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-
-  const targetX = (touchX - rect.left) * scaleX - FRAME_WIDTH / 2;
-  const targetY = (touchY - rect.top) * scaleY - FRAME_HEIGHT / 2;
+  const targetX = touchX - rect.left - FRAME_WIDTH / 2;
+  const targetY = touchY - rect.top - FRAME_HEIGHT / 2;
 
   const dx = targetX - player.x;
   const dy = targetY - player.y;
@@ -222,6 +218,13 @@ function updatePlayer() {
     player.facing = dx < 0 ? "left" : "right";
     moving = true;
   }
+}
+
+player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
+player.y = Math.max(0, Math.min(canvas.height - FRAME_HEIGHT, player.y));
+
+if (!player.attacking) {
+  player.state = moving ? "run" : "idle";
 }
 
 player.x = Math.max(0, Math.min(canvas.width - FRAME_WIDTH, player.x));
