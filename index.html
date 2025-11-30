@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444222730688480"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444222730688480" crossorigin="anonymous"></script>
   <title>AxeLab Studios LLC | Games & Innovation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="AxeLab Studios LLC is a creative technology company focused on game development, innovation, and expanding into automotive and design ventures." />
@@ -16,16 +15,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/jpeg" href="assets/icon2.jpg" />
   <style>
+    :root {
+      --bg-dark: #0a0a0a;
+      --brand: #00ff88;
+      --brand-soft: #00ff8844;
+      --text: #00ff88;
+      --text-muted: #ccc;
+      --panel: rgba(20, 20, 20, 0.95);
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: 'Rajdhani', sans-serif;
       background: url('assets/background.jpg') center center / cover no-repeat fixed;
-      color: #00ff88;
+      color: var(--text);
     }
 
     header {
-      background: #0a0a0a;
-      box-shadow: 0 0 20px #00ff8844;
+      background: var(--bg-dark);
+      box-shadow: 0 0 20px var(--brand-soft);
       padding: 0.5rem 0;
     }
 
@@ -37,6 +47,7 @@
       margin: 0 auto;
       padding: 0 1rem;
       flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .site-icon {
@@ -44,6 +55,8 @@
       height: 150px;
       object-fit: cover;
       border-radius: 8px;
+      border: 2px solid var(--brand);
+      box-shadow: 0 0 10px var(--brand-soft);
     }
 
     .header-nav ul {
@@ -57,32 +70,28 @@
 
     .header-nav a {
       font-family: 'Orbitron', sans-serif;
-      color: #00ff88;
+      color: var(--text);
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: .5px;
       transition: color 0.3s ease;
+      padding: 0.25rem 0.5rem;
     }
 
-    .header-nav a:hover {
-      color: #00ffaa;
-    }
+    .header-nav a:hover { color: #00ffaa; }
 
     .content-box {
       max-width: 960px;
       margin: 2rem auto;
       padding: 2rem;
-      background: rgba(20, 20, 20, 0.95);
-      border-left: 4px solid #00ff88;
-      box-shadow: 0 0 30px #00ff8844;
+      background: var(--panel);
+      border-left: 4px solid var(--brand);
+      box-shadow: 0 0 30px var(--brand-soft);
       border-radius: 8px;
     }
 
-    main section {
-      margin-bottom: 3rem;
-      text-align: center;
-    }
+    main section { margin-bottom: 3rem; text-align: center; }
 
     h2 {
       font-family: 'Bungee', sans-serif;
@@ -90,63 +99,71 @@
       margin-bottom: 1rem;
     }
 
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
+    p { font-size: 1.1rem; margin-bottom: 1rem; }
 
-    .social-links {
-      margin-top: 1.5rem;
-    }
+    .social-links { margin-top: 1.5rem; }
 
     .social-links a {
       display: inline-block;
       margin: 0.5rem;
       padding: 0.6rem 1.2rem;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      color: #00ff88;
-      background: #0a0a0a;
-      border: 2px solid #00ff88;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--bg-dark);
+      border: 2px solid var(--brand);
       border-radius: 6px;
       text-decoration: none;
-      box-shadow: 0 0 10px #00ff8844;
+      box-shadow: 0 0 10px var(--brand-soft);
       transition: background 0.3s ease, color 0.3s ease;
     }
 
     .social-links a:hover {
-      background: #00ff88;
-      color: #0a0a0a;
+      background: var(--brand);
+      color: var(--bg-dark);
     }
 
+    /* Founder bio panel */
     #founder {
       margin-top: 2rem;
       font-size: 0.95rem;
-      color: #ccc;
+      color: var(--text-muted);
       background: rgba(10,10,10,0.8);
       padding: 1.5rem;
       border-radius: 8px;
+      box-shadow: 0 0 15px var(--brand-soft);
     }
-    #founder h2 {
-      font-size: 1.5rem;
-      color: #00ff88;
+    #founder h2 { font-size: 1.6rem; color: var(--brand); }
+
+    /* Roadmap list */
+    #roadmap ul {
+      text-align: left;
+      max-width: 760px;
+      margin: 0.5rem auto 0;
+      padding-left: 1.2rem;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
+    #roadmap li { margin-bottom: 0.6rem; }
 
     footer {
       margin-top: 3rem;
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #888;
     }
+
+    /* Accessibility helpers */
+    a:focus, button:focus { outline: 2px dashed var(--brand); outline-offset: 2px; }
   </style>
 </head>
 
 <body>
 
-  <header id="site-header">
+  <header id="site-header" role="banner">
     <div class="header-container">
-      <img src="assets/icon2.jpg" alt="AxeLab Icon" class="site-icon" />
-      <nav class="header-nav">
+      <img src="assets/icon2.jpg" alt="AxeLab Studios LLC Icon" class="site-icon" />
+      <nav class="header-nav" aria-label="Primary">
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="froggy_jump.html">Froggy Jump</a></li>
@@ -157,7 +174,7 @@
   </header>
 
   <div class="content-box">
-    <main>
+    <main role="main">
       <section id="about">
         <h2>About AxeLab Studios LLC</h2>
         <p>AxeLab Studios LLC is a creative technology company dedicated to building meaningful experiences through software, gaming, and innovation. Founded by Alex Johnston, AxeLab began as a solo indie studio and has grown into a business with ambitions across multiple industries.</p>
@@ -169,30 +186,39 @@
         <h2>Support AxeLab</h2>
         <p>Help fuel the journey. We’ve published a branded development journal to support AxeLab’s growth and share the mindset behind the build. It’s designed for creators who want to track their own legacy.</p>
         <div class="social-links">
-          <a href="https://www.amazon.com/dp/B0FX671L6K" target="_blank">🛒 Get the Journal on Amazon</a>
+          <a href="https://www.amazon.com/dp/B0FX671L6K" target="_blank" rel="noopener">🛒 Get the Journal on Amazon</a>
         </div>
       </section>
 
       <section id="roadmap">
         <h2>Roadmap & Goals</h2>
-        <p>Our next milestone is <strong>ID@Xbox certification</strong>, bringing AxeLab’s games to console audiences. Beyond gaming, we are laying the groundwork for StrayLane Motors and future creative ventures in design and technology.</p>
-        <p>Expect updates, dev logs, and new projects as we continue to expand across industries.</p>
+        <p>Our next milestone is <strong>ID@Xbox certification</strong>, bringing AxeLab’s games to console audiences. This step will establish AxeLab as a verified studio and open the door to publishing opportunities on Xbox platforms.</p>
+
+        <p>We’re actively developing new prototypes to expand our portfolio and showcase our technical and creative range:</p>
+        <ul>
+          <li><strong>Rhythm RPG Prototype</strong> — a unique blend of rhythm gameplay and role-playing mechanics, inspired by the energy of Guitar Hero and expanded into a full RPG experience with progression, narrative, and skill-based challenges.</li>
+          <li><strong>Beeyond Worlds</strong> — an ambitious game concept exploring expansive environments, creative mechanics, and immersive storytelling focused on discovery and player-driven expression.</li>
+        </ul>
+
+        <p>Parallel to our game roadmap, we are laying the groundwork for <strong>StrayLane Motors</strong> in the automotive space—focused on vehicle sales and custom solutions—and preparing future creative ventures in <strong>music, custom paint modifications, and 3D printing</strong>.</p>
+
+        <p>Our near-term goals include building console-ready pipelines, strengthening brand assets, and developing strategic partnerships. Expect regular updates, dev logs, and project showcases as each milestone locks in.</p>
       </section>
 
       <section id="founder">
         <h2>Founder Bio</h2>
-        <p><strong>Alex Johnston</strong> is the founder of AxeLab Studios LLC. With an Associate of Applied Science (AAS) degree in Software Development from Ivy Tech Community College, Alex combines technical expertise with entrepreneurial vision. His work spans game development, automotive innovation, and creative ventures in music, custom design, and 3D printing.</p>
-        <p>Alex established AxeLab Studios to merge creativity and technology, and is actively expanding into new industries with projects like StrayLane Motors. His mission is to build ventures that inspire, engage, and deliver lasting impact.</p>
-        
+        <p><strong>Alex Johnston</strong> is the founder of AxeLab Studios LLC. He is completing an Associate of Applied Science (AAS) degree in Software Development at Ivy Tech Community College, with graduation expected on <strong>December 23, 2025</strong>, and has earned a Certificate in Software Development. Alex combines technical expertise with entrepreneurial vision, building ventures across game development, automotive innovation, and creative industries.</p>
+        <p>Alex established AxeLab Studios to merge creativity and technology, and is actively expanding into new industries with projects like StrayLane Motors. His mission is to build products and experiences that inspire, engage, and deliver lasting impact.</p>
+
         <!-- LinkedIn Profile Badge -->
-        <div class="badge-base LI-profile-badge" 
-             data-locale="en_US" 
-             data-size="medium" 
-             data-theme="light" 
-             data-type="HORIZONTAL" 
-             data-vanity="alex-johnston-281929206" 
+        <div class="badge-base LI-profile-badge"
+             data-locale="en_US"
+             data-size="medium"
+             data-theme="light"
+             data-type="HORIZONTAL"
+             data-vanity="alex-johnston-281929206"
              data-version="v1">
-          <a class="badge-base__link LI-simple-link" 
+          <a class="badge-base__link LI-simple-link"
              href="https://www.linkedin.com/in/alex-johnston-281929206?trk=profile-badge">
              Alex Johnston
           </a>
@@ -200,6 +226,26 @@
         <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
       </section>
 
-      <section id="contact
+      <section id="contact">
+        <h2>Connect with AxeLab</h2>
+        <p>Interested in collaboration, licensing, or partnerships? Reach out—we’re open to new opportunities.</p>
+        <p>Email: <a href="mailto:axelabstudios.llc@outlook.com">axelabstudios.llc@outlook.com</a></p>
+        <div class="social-links" aria-label="Social media links">
+          <a href="https://facebook.com/axelabstudios" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://tiktok.com/@axelabstudios" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://instagram.com/axelabstudios" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://twitter.com/axelabstudios" target="_blank" rel="noopener">Twitter</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer role="contentinfo">
+    <p>&copy; 2025 AxeLab Studios LLC. Innovation in motion.</p>
+  </footer>
+
+</body>
+</html>
+
 
 
