@@ -2,29 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444222730688480"
-     crossorigin="anonymous"></script>
-  <title>Froggy Jump | AxeLab Studios LLC</title>
+  <title>AxeLab Studios LLC | Arcade</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Leap into action with Froggy Jump—modular physics, tight controls, and asset-driven charm. Built by AxeLab Studios LLC." />
-  <link rel="canonical" href="https://axelabstudios.com/froggy_jump.html" />
-  <meta property="og:title" content="Froggy Jump | AxeLab Studios LLC" />
-  <meta property="og:description" content="Solo indie dev. Modular systems. Authentic branding." />
-  <meta property="og:url" content="https://axelabstudios.com/froggy_jump.html" />
-  <meta property="og:image" content="https://axelabstudios.com/assets/icon2.jpg" />
+  <meta name="description" content="AxeLab Studios Arcade – prototype games built for fun, free to play anytime, mobile-friendly." />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/jpeg" href="assets/icon2.jpg" />
   <style>
-
     body {
       margin: 0;
       font-family: 'Rajdhani', sans-serif;
       background: url('assets/background.jpg') center center / cover no-repeat fixed;
       color: #00ff88;
     }
-
-
 
     header {
       background: #0a0a0a;
@@ -43,10 +33,11 @@
     }
 
     .site-icon {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       object-fit: cover;
       border-radius: 8px;
+      border: 2px solid #00ff88;
     }
 
     .header-nav ul {
@@ -63,14 +54,12 @@
       color: #00ff88;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: .5px;
       transition: color 0.3s ease;
     }
 
-    .header-nav a:hover {
-      color: #00ffaa;
-    }
+    .header-nav a:hover { color: #00ffaa; }
 
     .content-box {
       max-width: 960px;
@@ -80,61 +69,55 @@
       border-left: 4px solid #00ff88;
       box-shadow: 0 0 30px #00ff8844;
       border-radius: 8px;
-      text-align: center;
     }
 
-    h1 {
+    main section { margin-bottom: 3rem; text-align: center; }
+
+    h2 {
       font-family: 'Bungee', sans-serif;
       font-size: 2rem;
       margin-bottom: 1rem;
     }
 
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
+    p { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    .screenshot-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
     }
 
-    canvas {
-      border: 2px solid #00ff88;
-      box-shadow: 0 0 20px #00ff8844;
-      background-color: black;
-      max-width: 100%;
+    .screenshot {
+      width: 320px;
       height: auto;
-      border-radius: 6px;
-    }
-
-    #game-buttons {
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    #start-froggy, #restart-froggy, #pause-froggy {
-      font-family: 'Bungee', sans-serif;
-      font-size: 1rem;
-      padding: 0.6rem 1.2rem;
-      margin: 0.5rem;
-      background: #0a0a0a;
-      color: #00ff88;
       border: 2px solid #00ff88;
-      border-radius: 8px;
-      cursor: pointer;
+      border-radius: 6px;
+      box-shadow: 0 0 10px #00ff8844;
+    }
+
+    .social-links {
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: #00ff88;
+      background: #0a0a0a;
+      border: 2px solid #00ff88;
+      border-radius: 6px;
+      text-decoration: none;
       box-shadow: 0 0 10px #00ff8844;
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    #pause-froggy {
-      color: #00ffcc;
-      border-color: #00ffcc;
-      box-shadow: 0 0 10px #00ffcc44;
-    }
-
-    #start-froggy:hover, #restart-froggy:hover {
+    .social-links a:hover {
       background: #00ff88;
-      color: #0a0a0a;
-    }
-
-    #pause-froggy:hover {
-      background: #00ffcc;
       color: #0a0a0a;
     }
 
@@ -155,7 +138,7 @@
       <nav class="header-nav">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="arcade.html">The Arcade</a></li>
+          <li><a href="arcade.html">Arcade</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -164,23 +147,28 @@
 
   <div class="content-box">
     <main>
-      <h1>Froggy Jump</h1>
-      <p>Leap into action with modular physics, tight controls, and asset-driven charm. Built for vertical traversal and replayable challenge.</p>
-      <canvas id="froggyCanvas" width="400" height="600"></canvas>
+      <section id="arcade-intro">
+        <h2>Welcome to the AxeLab Arcade</h2>
+        <p>These games are <strong>prototypes</strong> built by AxeLab Studios. They are simply for fun, free to play anytime, and designed to work on both desktop and mobile devices. As we expand, more games will be added here for everyone to enjoy.</p>
+      </section>
 
-      <div id="game-buttons">
-        <button id="start-froggy">Start Game</button>
-        <button id="restart-froggy">Restart</button>
-        <button id="pause-froggy">Pause</button>
-      </div>
+      <section id="froggy-jump">
+        <h2>Froggy Jump</h2>
+        <p>Leap into vertical traversal with modular physics, tight controls, and asset-driven charm. Froggy Jump is a precision platformer built to test movement systems and showcase branded animation. Every jump is intentional. Every fall is a lesson. Built for replayability and mobile-ready performance.</p>
+        <div class="screenshot-row">
+          <img src="assets/screenshot3.png" alt="Froggy Jump Screenshot 1" class="screenshot" />
+          <img src="assets/screenshot4.png" alt="Froggy Jump Screenshot 2" class="screenshot" />
+        </div>
+        <div class="social-links">
+          <a href="froggy_jump.html">▶ Play Froggy Jump</a>
+        </div>
+      </section>
     </main>
   </div>
 
   <footer>
-    &copy; 2025 AxeLab Studios LLC. Built with grit.
+    <p>&copy; 2025 AxeLab Studios LLC. Innovation in motion.</p>
   </footer>
 
-  <script src="froggy_jump/game.js"></script>
 </body>
 </html>
-
