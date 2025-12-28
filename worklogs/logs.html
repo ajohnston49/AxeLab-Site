@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Work Logs</title>
+<style>
+    body {
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .year-box {
+        background: #222;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        border: 2px solid #00ff00;
+    }
+
+    .year-title {
+        font-size: 28px;
+        margin-bottom: 15px;
+        color: #00ff00;
+    }
+
+    .month-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    button {
+        background: #00ff00;
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #55ff55;
+    }
+
+    #results {
+        margin-top: 40px;
+        padding: 20px;
+        background: #222;
+        border-radius: 12px;
+        border: 2px solid #00ff00;
+    }
+
+    .entry {
+        background: #333;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .total-box {
+        background: #000;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        border: 2px solid #00ff00;
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>Work Logs</h1>
+
+<!-- YEAR 2025 -->
+<div class="year-box">
+    <div class="year-title">2025</div>
+    <div class="month-buttons">
+        <button onclick="loadMonth(2025, 1)">January</button>
+        <button onclick="loadMonth(2025, 2)">February</button>
+        <button onclick="loadMonth(2025, 3)">March</button>
+        <button onclick="loadMonth(2025, 4)">April</button>
+        <button onclick="loadMonth(2025, 5)">May</button>
+        <button onclick="loadMonth(2025, 6)">June</button>
+        <button onclick="loadMonth(2025, 7)">July</button>
+        <button onclick="loadMonth(2025, 8)">August</button>
+        <button onclick="loadMonth(2025, 9)">September</button>
+        <button onclick="loadMonth(2025, 10)">October</button>
+        <button onclick="loadMonth(2025, 11)">November</button>
+        <button onclick="loadMonth(2025, 12)">December</button>
+    </div>
+</div>
+
+<!-- YEAR 2026 -->
+<div class="year-box">
+    <div class="year-title">2026</div>
+    <div class="month-buttons">
+        <button onclick="loadMonth(2026, 1)">January</button>
+        <button onclick="loadMonth(2026, 2)">February</button>
+        <button onclick="loadMonth(2026, 3)">March</button>
+        <button onclick="loadMonth(2026, 4)">April</button>
+        <button onclick="loadMonth(2026, 5)">May</button>
+        <button onclick="loadMonth(2026, 6)">June</button>
+        <button onclick="loadMonth(2026, 7)">July</button>
+        <button onclick="loadMonth(2026, 8)">August</button>
+        <button onclick="loadMonth(2026, 9)">September</button>
+        <button onclick="loadMonth(2026, 10)">October</button>
+        <button onclick="loadMonth(2026, 11)">November</button>
+        <button onclick="loadMonth(2026, 12)">December</button>
+    </div>
+</div>
+
+<div id="results"></div>
+
+<script>
+async function loadMonth(year, month) {
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = `<h2>Loading ${year} / ${month}...</h2>`;
+
+    const folder = `/worklogs/${year}/${month}/`;
+
+    let totalMinutes = 0;
+    let html = `<h2>${year} – ${month}</h2>`;
+
+    try {
+        // Worker will later return a list of files
+        const fileList = await fetch(folder + "index.json").then(r => r.json());
+
+        for (const file of fileList) {
+            const log = await fetch(folder + file).then(r => r.json());
+
+            html += `
+                <div class="entry">
+                    <strong>Date:</strong> ${log.date}<br>
+                    <strong>Time In:</strong> ${log.timeIn}<br>
+                    <strong>Time Out:</strong> ${log.timeOut}<br>
+                    <strong>Duration:</strong> ${log.duration}<br>
+                    <strong>Notes:</strong> ${log.notes}
+                </div>
+            `;
+
+            // Parse duration "2h 39m"
+            const match = log.duration.match(/(\d+)h\s+(\d+)m/);
+            if (match) {
+                const hours = parseInt(match[1]);
+                const mins = parseInt(match[2]);
+                totalMinutes += hours * 60 + mins;
+            }
+        }
+
+        const totalHours = Math.floor(totalMinutes / 60);
+        const totalMins = totalMinutes % 60;
+
+        html += `
+            <div class="total-box">
+                Total Hours: ${totalHours}h ${totalMins}m
+            </div>
+        `;
+
+        resultsDiv.innerHTML = html;
+
+    } catch (err) {
+        resultsDiv.innerHTML = `<h2>No logs found for ${year}/${month}</h2>`;
+    }
+}
+</script>
+
+</body>
+</html>
