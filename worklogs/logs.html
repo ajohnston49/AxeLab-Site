@@ -10,12 +10,10 @@
         font-family: Arial, sans-serif;
         padding: 20px;
     }
-
     h1 {
         text-align: center;
         margin-bottom: 30px;
     }
-
     .year-box {
         background: #222;
         padding: 20px;
@@ -23,19 +21,16 @@
         margin-bottom: 30px;
         border: 2px solid #00ff00;
     }
-
     .year-title {
         font-size: 28px;
         margin-bottom: 15px;
         color: #00ff00;
     }
-
     .month-buttons {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
     }
-
     button {
         background: #00ff00;
         color: black;
@@ -45,11 +40,9 @@
         cursor: pointer;
         font-weight: bold;
     }
-
     button:hover {
         background: #55ff55;
     }
-
     #results {
         margin-top: 40px;
         padding: 20px;
@@ -57,14 +50,12 @@
         border-radius: 12px;
         border: 2px solid #00ff00;
     }
-
     .entry {
         background: #333;
         padding: 15px;
         border-radius: 8px;
         margin-bottom: 15px;
     }
-
     .total-box {
         background: #000;
         padding: 15px;
@@ -121,17 +112,19 @@
 <div id="results"></div>
 
 <script>
+const BASE_URL = "https://axelabstudios.com";
+
 async function loadMonth(year, month) {
     const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = `<h2>Loading ${year} / ${month}...</h2>`;
+    const monthStr = String(month).padStart(2, "0");
+    const folder = `${BASE_URL}/worklogs/${year}/${monthStr}/`;
 
-    const folder = `/worklogs/${year}/${month}/`;
+    resultsDiv.innerHTML = `<h2>Loading ${year} / ${monthStr}...</h2>`;
 
     let totalMinutes = 0;
-    let html = `<h2>${year} – ${month}</h2>`;
+    let html = `<h2>${year} – ${monthStr}</h2>`;
 
     try {
-        // Worker will later return a list of files
         const fileList = await fetch(folder + "index.json").then(r => r.json());
 
         for (const file of fileList) {
@@ -147,12 +140,9 @@ async function loadMonth(year, month) {
                 </div>
             `;
 
-            // Parse duration "2h 39m"
             const match = log.duration.match(/(\d+)h\s+(\d+)m/);
             if (match) {
-                const hours = parseInt(match[1]);
-                const mins = parseInt(match[2]);
-                totalMinutes += hours * 60 + mins;
+                totalMinutes += parseInt(match[1]) * 60 + parseInt(match[2]);
             }
         }
 
@@ -168,10 +158,11 @@ async function loadMonth(year, month) {
         resultsDiv.innerHTML = html;
 
     } catch (err) {
-        resultsDiv.innerHTML = `<h2>No logs found for ${year}/${month}</h2>`;
+        resultsDiv.innerHTML = `<h2>No logs found for ${year}/${monthStr}</h2>`;
     }
 }
 </script>
 
 </body>
 </html>
+
